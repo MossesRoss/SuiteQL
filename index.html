@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuiteQL Query Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        #content-container {
+            transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease-in-out;
+        }
+        .view {
+            position: absolute;
+            inset: 0;
+            transition: opacity 0.3s ease-in-out 0.3s; /* Delay opacity transition */
+            opacity: 0;
+            pointer-events: none;
+        }
+        .view-active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #color-swoosh {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            border-radius: 9999px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform, opacity;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="bg-zinc-100 flex flex-col items-center min-h-screen">
+
+    <!-- Global Header -->
+    <header class="w-full bg-white border-b border-zinc-200 sticky top-0 z-20">
+        <div class="max-w-xl mx-auto px-6 py-3 flex justify-between items-center">
+            <nav id="main-nav" class="flex items-center space-x-2">
+                <a href="#overview" data-color="#4285F4" data-bg-color="#e8f0fe" class="nav-link font-semibold p-2 rounded-md text-sm transition-colors hover:bg-zinc-100">Overview</a>
+                <a href="#about-me" data-color="#34A853" data-bg-color="#e6f4ea" class="nav-link font-semibold p-2 rounded-md text-sm transition-colors hover:bg-zinc-100">About Me</a>
+                <a href="#version-history" data-color="#FBBC05" data-bg-color="#fff8e1" class="nav-link font-semibold p-2 rounded-md text-sm transition-colors hover:bg-zinc-100">Versions</a>
+                <a href="#contribute" data-color="#EA4335" data-bg-color="#fce8e6" class="nav-link font-semibold p-2 rounded-md text-sm transition-colors hover:bg-zinc-100">Contribute</a>
+            </nav>
+            <a href="#help" data-color="#d32f2f" data-bg-color="#fdecea" class="nav-link font-semibold p-2 rounded-md text-sm transition-all hover:bg-red-50 hover:text-red-600 transform hover:scale-105">Help</a>
+        </div>
+    </header>
+
+    <!-- Main Content Box -->
+    <div class="my-8 bg-white rounded-2xl border border-zinc-200 w-full max-w-xl shadow-lg overflow-hidden">
+        <main id="content-container" class="relative">
+            <div id="color-swoosh"></div>
+            <!-- Overview View -->
+            <div id="overview" class="view p-8">
+                 <div class="text-center">
+                    <h1 class="text-4xl font-bold text-zinc-900 tracking-tight">SuiteQL Query Tool</h1>
+                    <p class="text-zinc-600 mt-3 text-lg">A simple, modern Suitelet to test SQL in NetSuite.</p>
+                </div>
+                <p class="text-zinc-600 leading-relaxed mt-8 text-center">This is a lightweight, easy-to-deploy Suitelet that provides a UI within NetSuite to run SuiteQL queries. It's designed for developers who need a quick way to explore data without the overhead of saved searches or reports.</p>
+                <a id="downloadLink" href="#" class="flex mt-8 items-center justify-center w-full bg-blue-600 text-white font-semibold py-3 px-8 rounded-full hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                    Download Latest Version
+                </a>
+            </div>
+
+            <!-- About Me View -->
+            <div id="about-me" class="view p-8">
+                <h2 class="text-3xl font-bold text-zinc-900 mb-6">About Me</h2>
+                <p class="text-zinc-600 leading-relaxed mb-4">I'm Mosses Ross, a tech enthusiast working as a Technical Consultant at <a href="http://www.metafygx.com" target="_blank" class="text-blue-600 font-medium hover:underline">Metafygx</a>. I reconstructed this extension with help from <a href="https://github.com/yogansriram" target="_blank" class="text-blue-600 font-medium hover:underline">Yogan</a>. If you want to contribute or just connect, you can find me here:</p>
+                <div class="flex flex-wrap gap-x-6 gap-y-2 mt-4">
+                    <a href="https://www.linkedin.com/in/techgamemathpreneur/" target="_blank" class="text-blue-600 font-medium hover:underline">LinkedIn</a>
+                    <a href="https://github.com/MossesRoss" target="_blank" class="text-blue-600 font-medium hover:underline">GitHub</a>
+                    <a href="mailto:mosasross@gmail.com" class="text-blue-600 font-medium hover:underline">Email</a>
+                </div>
+            </div>
+
+            <!-- Version History View -->
+            <div id="version-history" class="view p-8">
+                <h2 class="text-3xl font-bold text-zinc-900 mb-6">Version History</h2>
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="font-semibold text-zinc-800">New Versions:</h3>
+                        <a href="https://raw.githubusercontent.com/MossesRoss/SuiteQL-Query-Tool/main/suiteql-tool-sl.js" download="suiteql-querytool-v2025.1.js" class="text-blue-600 hover:underline">v2025.1</a>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-zinc-800">Old Versions:</h3>
+                        <a href="https://suiteql.s3.amazonaws.com/query-tool/suiteql-query-tool.v20211027.suitelet.js.zip" class="text-blue-600 hover:underline">v2021.2</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Help View -->
+            <div id="help" class="view p-8">
+                <h2 class="text-3xl font-bold text-zinc-900 mb-6">How to Deploy</h2>
+                <ol class="list-decimal list-inside space-y-4 text-zinc-600">
+                    <li>Download the <code class="bg-zinc-100 text-sm p-1 rounded-md text-zinc-800">suiteql-querytool.js</code> file.</li>
+                    <li>In NetSuite, navigate to <b class="font-semibold text-zinc-800">Customization > Scripting > Scripts > New</b>.</li>
+                    <li>Click the "+" icon and upload the downloaded file to your File Cabinet.</li>
+                    <li>Select the file and click <b class="font-semibold text-zinc-800">Create Script Record</b>.</li>
+                    <li>Give the script a name and an ID, then Save.</li>
+                    <li>Click <b class="font-semibold text-zinc-800">Deploy Script</b>. Set Status to "Released" and choose your Audience. Save.</li>
+                    <li>Copy the <b class="font-semibold text-zinc-800">External URL</b> to access the tool.</li>
+                </ol>
+            </div>
+
+            <!-- Contribute View -->
+            <div id="contribute" class="view p-8">
+                <h2 class="text-3xl font-bold text-zinc-900 mb-6">Contribute</h2>
+                <div class="space-y-8">
+                    <div>
+                        <h3 class="text-lg font-semibold text-zinc-800">Code Contribution</h3>
+                        <p class="text-zinc-600 mt-1">Found a bug or have a feature idea? Feel free to contribute on GitHub.</p>
+                        <a href="https://github.com/MossesRoss/SuiteQL-Query-Tool" target="_blank" class="inline-block mt-3 bg-zinc-800 text-white font-semibold py-2 px-5 rounded-full hover:bg-zinc-900 transition-colors">View on GitHub</a>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-zinc-800">Support the Project</h3>
+                        <p class="text-zinc-600 mt-1">If this tool has helped you, consider supporting its development.</p>
+                        <a href="#" class="inline-block mt-3 bg-amber-400 text-black font-semibold py-2 px-5 rounded-full hover:bg-amber-500 transition-colors">Buy me a coffee</a>
+                    </div>
+                     <div>
+                        <h3 class="text-lg font-semibold text-zinc-800">Contributors</h3>
+                        <p class="text-zinc-600 mt-1">A special thanks to the contributors who have helped improve this tool.</p>
+                        <a href="https://github.com/yogansriram" target="_blank" class="text-blue-600 font-medium hover:underline mt-2 inline-block">Yogan Sriram</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const suiteletCode = `/**
+ * @NApiVersion 2.x
+ * @NScriptType Suitelet
+ * @NModuleScope SameAccount
+ * A simple tool to run SuiteQL queries.
+ */
+define(['N/ui/serverWidget', 'N/query', 'N/log'],
+    function(serverWidget, query, log) {
+        function onRequest(context) {
+            if (context.request.method === 'GET') {
+                const form = serverWidget.createForm({ title: 'SuiteQL Query Tool' });
+                form.clientScriptModulePath = './suiteql-client-script.js';
+
+                const queryField = form.addField({
+                    id: 'custpage_suiteql_query',
+                    type: serverWidget.FieldType.TEXTAREA,
+                    label: 'Enter SuiteQL Query'
+                });
+                queryField.layoutType = serverWidget.FieldLayoutType.NORMAL;
+                
+                form.addSubmitButton({ label: 'Run Query' });
+                
+                context.response.writePage(form);
+            } else { // POST
+                const submittedQuery = context.request.parameters.custpage_suiteql_query;
+                const form = serverWidget.createForm({ title: 'SuiteQL Results' });
+
+                const queryField = form.addField({
+                    id: 'custpage_suiteql_query',
+                    type: serverWidget.FieldType.TEXTAREA,
+                    label: 'SuiteQL Query'
+                });
+                queryField.defaultValue = submittedQuery;
+                
+                try {
+                    const results = query.runSuiteQL({ query: submittedQuery }).asMappedResults();
+                    let html = '<br/><h3>Results: ' + results.length + '</h3>';
+                    if (results.length > 0) {
+                        html += '<table border="1" style="width:100%; border-collapse: collapse;">';
+                        html += '<thead><tr>';
+                        Object.keys(results[0]).forEach(key => {
+                            html += '<th style="padding: 5px; text-align: left; background-color: #f2f2f2;">' + key + '</th>';
+                        });
+                        html += '</tr></thead>';
+                        html += '<tbody>';
+                        results.forEach((row, index) => {
+                            const bgColor = index % 2 === 0 ? '#ffffff' : '#f9f9f9';
+                            html += '<tr style="background-color: ' + bgColor + ';">';
+                            Object.values(row).forEach(val => {
+                                html += '<td style="padding: 5px; border-top: 1px solid #ddd;">' + (val !== null ? val : '') + '</td>';
+                            });
+                            html += '</tr>';
+                        });
+                        html += '</tbody></table>';
+                    }
+                    form.addField({
+                        id: 'custpage_results',
+                        type: serverWidget.FieldType.INLINEHTML,
+                        label: ' '
+                    }).defaultValue = html;
+
+                } catch (e) {
+                     form.addField({
+                        id: 'custpage_error',
+                        type: serverWidget.FieldType.INLINEHTML,
+                        label: ' '
+                    }).defaultValue = '<br/><h3>Error</h3><pre style="color:red; background-color: #fdd; padding: 10px; border: 1px solid red; border-radius: 4px;">' + e.message + '</pre>';
+                }
+
+                form.addSubmitButton({ label: 'Run New Query' });
+                context.response.writePage(form);
+            }
+        }
+        return { onRequest: onRequest };
+    });`;
+
+        function setupDownload() {
+            const downloadLink = document.getElementById('downloadLink');
+            if (downloadLink) {
+                const blob = new Blob([suiteletCode], { type: 'text/javascript' });
+                const url = URL.createObjectURL(blob);
+                downloadLink.href = url;
+                downloadLink.download = 'suiteql-querytool.js';
+            }
+        }
+        setupDownload();
+
+        const navLinks = document.querySelectorAll('.nav-link');
+        const views = document.querySelectorAll('.view');
+        const contentContainer = document.getElementById('content-container');
+        const colorSwoosh = document.getElementById('color-swoosh');
+        let currentLink = 0;
+        let isAnimating = false;
+
+        const switchView = (targetId, color, bgColor, direction) => {
+            if (isAnimating) return;
+            isAnimating = true;
+
+            const targetView = document.getElementById(targetId);
+            if (!targetView) {
+                isAnimating = false;
+                return;
+            }
+
+            // Update Nav styles
+            navLinks.forEach(link => {
+                const isActive = link.getAttribute('href') === `#${targetId}`;
+                link.classList.toggle('text-blue-600', isActive);
+                link.classList.toggle('text-zinc-600', !isActive);
+            });
+            
+            views.forEach(view => view.classList.remove('view-active'));
+            
+            colorSwoosh.style.backgroundColor = color;
+            const startPos = direction === 'left' ? '-200%' : '200%';
+            colorSwoosh.style.transition = 'none';
+            colorSwoosh.style.transform = `translate(${startPos}, -50%) scale(0.5)`;
+
+            requestAnimationFrame(() => {
+                colorSwoosh.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                colorSwoosh.style.opacity = '1';
+                colorSwoosh.style.transform = 'translate(-50%, -50%) scale(1)';
+            });
+
+            setTimeout(() => {
+                contentContainer.style.backgroundColor = bgColor;
+                colorSwoosh.style.transform = 'translate(-50%, -50%) scale(50)';
+                colorSwoosh.style.opacity = '0';
+                
+                targetView.classList.add('view-active');
+                contentContainer.style.height = `${targetView.scrollHeight}px`;
+
+                setTimeout(() => {
+                    isAnimating = false;
+                }, 600);
+            }, 300);
+        };
+
+        document.querySelector('header').addEventListener('click', (e) => {
+            const link = e.target.closest('.nav-link');
+            if (link) {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const color = link.dataset.color || '#757575';
+                const bgColor = link.dataset.bgColor || '#ffffff';
+                
+                const linksArray = Array.from(navLinks);
+                const linkIndex = linksArray.indexOf(link);
+                const direction = linkIndex > currentLink ? 'right' : 'left';
+                currentLink = linkIndex;
+                
+                switchView(targetId, color, bgColor, direction);
+            }
+        });
+
+        // Initialize first view
+        const firstLink = navLinks[0];
+        firstLink.classList.add('text-blue-600');
+        firstLink.classList.remove('text-zinc-600');
+        const firstView = document.getElementById('overview');
+        firstView.classList.add('view-active');
+        contentContainer.style.height = `${firstView.scrollHeight}px`;
+        contentContainer.style.backgroundColor = firstLink.dataset.bgColor;
+    });
+    </script>
+</body>
+</html>
